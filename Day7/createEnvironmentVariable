@@ -1,0 +1,22 @@
+pipeline {
+   agent any
+   environment {
+       DISABLE_AUTH = 'true'
+       DEPLOY_TO = 'production'
+   }
+   stages {
+       stage(“Build”) {
+           environment {
+                   ENABLE_AUTH = 'false'
+                   JOB_TIME = sh (returnStdout: true, script: "date '+%A %W %Y %X'").trim()
+              }
+           steps {
+               echo env.DISABLE_AUTH
+               echo env.ENABLE_AUTH
+               echo "${DEPLOY_TO}" 
+               sh 'echo $JOB_TIME'
+               sh 'printenv'
+           }
+       }
+   }
+}
